@@ -114,10 +114,12 @@ State LimoVelo::run_localization()
     IMUs imus = accumulator_->get_imus(states.front().time, t2_);
     imus.push_back(accumulator_->get_next_imu(t2_));
 
-
-    Points compensated = compensator_->compensate(states, imus, t2_, points);
+    compensated_ = compensator_->compensate(states, imus, t2_, points);
     ds_compensated_ = compensator_->downsample(compensated_);
-    if (ds_compensated_.size() < Config.MAX_POINTS2MATCH) {return State();}
+    if (ds_compensated_.size() < Config.MAX_POINTS2MATCH) {
+        logger_("Not enough points to localize.");
+        return State();
+    }
 
     /*********** LOCALIZATION ***********/
 
@@ -132,8 +134,8 @@ State LimoVelo::run_localization()
     accumulator_->push(Xt2);
 
     // Publish pointcloud used to localize
-    Points global_compensated_ = Xt2 * Xt2.I_Rt_L() * compensated_;
-    Points global_ds_compensated_ = Xt2 * Xt2.I_Rt_L() * ds_compensated_;
+    global_compensated_ = Xt2 * Xt2.I_Rt_L() * compensated_;
+    global_ds_compensated_ = Xt2 * Xt2.I_Rt_L() * ds_compensated_;
 
     return Xt2;
 }

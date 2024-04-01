@@ -178,14 +178,18 @@ static void timeIt(std::string text, bool print = true)
         start = std::chrono::system_clock::now();
         return;
     }
-    std::cout << text << " " << std::chrono::duration_cast<std::chrono::milliseconds>(
-        std::chrono::system_clock::now() - start).count() << "ms" << std::endl;
 
-    start = std::chrono::system_clock::now();
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double, std::milli> duration = end - start;
+    std::cout << text << " " << duration.count() << "ms" << std::endl;
+
+    // start = std::chrono::system_clock::now();
 }
 
 void LimoVeloNode::pointcloud_callback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
 {
+    std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
+
     timeIt("", false);
     // Create a temporal object to process the pointcloud message
     PointCloudProcessor processor(params_);
@@ -205,6 +209,11 @@ void LimoVeloNode::pointcloud_callback(const sensor_msgs::msg::PointCloud2::Shar
         timeIt("initialized");
         run_slam();
     }
+
+    // log execution time
+    auto end = std::chrono::system_clock::now();
+    std::chrono::duration<double, std::milli> duration = end - start;
+    logger("Total execution time: " + std::to_string(duration.count()) + "ms");
 }
 
 void LimoVeloNode::imu_callback(const sensor_msgs::msg::Imu::SharedPtr msg)

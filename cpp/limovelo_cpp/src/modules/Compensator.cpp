@@ -40,19 +40,19 @@ Points Compensator::compensate(
 
     // States have to surround points
     assert(
-        not states.empty() and states.front().time <= points.front().time and  points.back().time <=
-        states.back().time);
+        not path_taken.empty() and path_taken.front().time <= points.front().time and  points.back().time <=
+        path_taken.back().time);
 
     Points t2_inv_ps;
     int p = 0;
 
-    for (int s = 0; s < states.size() - 1; ++s) {
-        while (p < points.size() and states[s].time <= points[p].time and points[p].time <=
-          states[s + 1].time)
+    for (int s = 0; s < path_taken.size() - 1; ++s) {
+        while (p < points.size() and path_taken[s].time <= points[p].time and points[p].time <=
+          path_taken[s + 1].time)
         {
             // Integrate to point time
-            State Xtp = states[s];
-            Xtp += IMU(states[s].a, states[s].w, points[p].time);
+            State Xtp = path_taken[s];
+            Xtp += IMU(path_taken[s].a, path_taken[s].w, points[p].time);
 
             // Transport to X_t2^-1 frame
             Point global_p = Xtp * Xtp.I_Rt_L() * points[p];
