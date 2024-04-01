@@ -1,0 +1,6 @@
+[submodule "cpp/limovelo_cpp/external/ikd-Tree"]
+	path = cpp/limovelo_cpp/external/ikd-Tree
+	url = git@github.com:bertaveira/ikd-Tree.git
+[submodule "cpp/limovelo_cpp/external/IKFoM"]
+	path = cpp/limovelo_cpp/external/IKFoM
+	url = git@github.com:bertaveira/IKFoM.git

@@ -5,7 +5,8 @@
 #include <Eigen/Dense>
 
 #include "Common.hpp"
-#include "use-ikfom.hpp"
+
+class state_ikfom;
 
 template<typename ContentType>
 class Buffer

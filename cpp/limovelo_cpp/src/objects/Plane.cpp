@@ -20,26 +20,27 @@ float Plane::dist_to_plane(const Point & p) const
 
 bool Plane::on_plane(const Point & p)
 {
-    return std::fabs(this->dist_to_plane(p)) < Config.PLANES_THRESHOLD;
+    return std::fabs(this->dist_to_plane(p)) < limovelo::Config.PLANES_THRESHOLD;
 }
 
 // private:
 bool Plane::enough_points(const PointVector & points_near)
 {
-    return this->is_plane = points_near.size() >= Config.NUM_MATCH_POINTS;
+    return this->is_plane = points_near.size() >= limovelo::Config.NUM_MATCH_POINTS;
 }
 
 bool Plane::points_close_enough(const std::vector<float> & sq_dists)
 {
     if (sq_dists.size() < 1) {return this->is_plane = false;}
-    return this->is_plane = sq_dists.back() < Config.MAX_DIST_PLANE * Config.MAX_DIST_PLANE;
+    return this->is_plane = sq_dists.back() <
+             limovelo::Config.MAX_DIST_PLANE * limovelo::Config.MAX_DIST_PLANE;
 }
 
 void Plane::fit_plane(const PointVector & points)
 {
     // Estimate plane
     Eigen::Vector4f ABCD = R3Math::estimate_plane(points);
-    this->is_plane = R3Math::is_plane(ABCD, points, Config.PLANES_THRESHOLD);
+    this->is_plane = R3Math::is_plane(ABCD, points, limovelo::Config.PLANES_THRESHOLD);
 
     // Calculate attributes of plane
     if (this->is_plane) {

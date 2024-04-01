@@ -43,12 +43,13 @@ include_directories(
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/modules LIMO_VELO_MODULES_SRC)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/objects LIMO_VELO_OBJECTS_SRC)
 
-add_library(limovelo_cpp STATIC)
+add_library(limovelo_cpp)
 add_library(limovelo::limovelo_cpp ALIAS limovelo_cpp)
 
 target_sources(limovelo_cpp PRIVATE 
     src/Limovelo.cpp
     src/Params.cpp
+    src/Utils.cpp
     ${LIMO_VELO_MODULES_SRC}
     ${LIMO_VELO_OBJECTS_SRC}
     
@@ -56,4 +57,4 @@ target_sources(limovelo_cpp PRIVATE
     external/IKFoM/use-ikfom.cpp
 )
 
-target_link_libraries(limovelo_cpp PUBLIC Eigen3::Eigen ${PCL_LIBRARIES})
+target_link_libraries(limovelo_cpp PUBLIC Eigen3::Eigen ${PCL_LIBRARIES} OpenMP::OpenMP_CXX)

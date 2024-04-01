@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Objects.hpp"
-#include "Accumulator.hpp"
-#include "Localizator.hpp"
-#include "Compensator.hpp"
-#include "Mapper.hpp"
+
+namespace limovelo
+{
+
+void set_params(Params & params);
 
 class LimoVelo
 {
@@ -19,13 +19,13 @@ public:
     void add_imu(const IMU & imu);
     void add_points(const Points & points);
 
-    State run_localize();
+    State run_localization();
     Points get_compsensated_points();
     Points get_downsampled_compensated_points();
     Points get_global_compensated_points();
     Points get_global_downsampled_compensated_points();
 
-    void run_mapping(double t);
+    void run_mapping();
 
 private:
     bool initialized_ = false;
@@ -40,3 +40,5 @@ private:
     std::shared_ptr<Mapper> mapper_;
 
 };
+
+} // namespace limovelo

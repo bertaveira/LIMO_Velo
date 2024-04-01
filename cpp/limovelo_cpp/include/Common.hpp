@@ -15,6 +15,7 @@
 #include <pcl/filters/voxel_grid.h>
 #include <pcl/io/pcd_io.h>
 
+#include "Params.hpp"
 
 namespace velodyne_ros
 {
@@ -142,3 +143,4 @@ typedef std::vector<Match> Matches;
 class Accumulator;
 class Localizator;
 class Mapper;
+class Compensator;

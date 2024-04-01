@@ -1,5 +1,19 @@
 #include "Limovelo.hpp"
 
+#include "Objects.hpp"
+#include "Accumulator.hpp"
+#include "Compensator.hpp"
+#include "Localizator.hpp"
+#include "Mapper.hpp"
+
+namespace limovelo
+{
+
+void set_params(Params & params)
+{
+    Config = params;
+}
+
 LimoVelo::LimoVelo(std::function<void(std::string)> logger)
   : logger_(logger)
 {
@@ -59,7 +73,7 @@ bool LimoVelo::initialized()
     return false;
 }
 
-State LimoVelo::run_localize()
+State LimoVelo::run_localization()
 {
     if (!initialized()) {
         logger_(
@@ -144,7 +158,7 @@ Points LimoVelo::get_global_downsampled_compensated_points()
     return global_ds_compensated_;
 }
 
-void LimoVelo::run_mapping(double t)
+void LimoVelo::run_mapping()
 {
     if (!initialized()) {
         logger_(
@@ -161,3 +175,5 @@ void LimoVelo::run_mapping(double t)
     accumulator_->clear_lidar(t2_ - Config.empty_lidar_time);
     accumulator_->clear_buffers(t2_ - Config.empty_lidar_time);
 }
+
+} // namespace limovelo

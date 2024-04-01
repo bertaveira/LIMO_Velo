@@ -47,7 +47,7 @@ Matches Mapper::match(const State & X, const Points & points)
 bool Mapper::hasToMap(double t)
 {
     if (this->last_map_time < 0) {this->last_map_time = t;}
-    return t - this->last_map_time >= Config.full_rotation_time;
+    return t - this->last_map_time >= limovelo::Config.full_rotation_time;
 }
 
 // private:
@@ -81,8 +81,8 @@ Match Mapper::match_plane(const Point & p)
 {
     // Find k nearest points
     PointVector near_points;
-    vector<float> pointSearchSqDis(Config.NUM_MATCH_POINTS);
-    this->map->Nearest_Search(p, Config.NUM_MATCH_POINTS, near_points, pointSearchSqDis);
+    vector<float> pointSearchSqDis(limovelo::Config.NUM_MATCH_POINTS);
+    this->map->Nearest_Search(p, limovelo::Config.NUM_MATCH_POINTS, near_points, pointSearchSqDis);
 
     // Construct a plane fitting between them
     return Match(p, Plane(near_points, pointSearchSqDis));

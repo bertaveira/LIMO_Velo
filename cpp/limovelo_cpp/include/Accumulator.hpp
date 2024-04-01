@@ -55,7 +55,7 @@ public:
 
     // Time management
     double set_initial_time();
-    double update_delta(const InitializationParams &, double t);
+    double update_delta(const limovelo::InitializationParams &, double t);
     double latest_time();
     double latest_imu_time();
     double latest_points_time();
@@ -124,7 +124,7 @@ private:
     }
 
     bool enough_imus();
-    double interpret_initialization(const InitializationParams &, double t);
+    double interpret_initialization(const limovelo::InitializationParams &, double t);
 
     bool missing_data(const Points &);
     void throw_warning(const Points &);

@@ -3,21 +3,25 @@
 #include "Utils.hpp"
 #include "Accumulator.hpp"
 
+#include "use-ikfom.hpp"
+
 // class State
 // public:
 
 State::State()
 {
+    this->time = -1.0;
+
     // Read YAML parameters
     this->g = Eigen::Map<Eigen::Vector3f>(
         Conversions::double2floatVect(
-            Config.initial_gravity).data(), 3);
+            limovelo::Config.initial_gravity).data(), 3);
     this->tLI = Eigen::Map<Eigen::Vector3f>(
         Conversions::double2floatVect(
-            Config.I_Translation_L).data(), 3);
+            limovelo::Config.I_Translation_L).data(), 3);
     this->RLI = Eigen::Map<Eigen::Matrix3f>(
         Conversions::double2floatVect(
-            Config.I_Rotation_L).data(), 3, 3).transpose();
+            limovelo::Config.I_Rotation_L).data(), 3, 3).transpose();
 
     // State
     this->pos = Eigen::Vector3f::Zero();

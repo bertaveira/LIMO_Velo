@@ -4,6 +4,9 @@
 #include <string>
 
 
+namespace limovelo
+{
+
 namespace LIDAR_TYPE
 {
 const std::string Velodyne = "velodyne";
@@ -73,3 +76,5 @@ struct Params
 };
 
 extern Params Config;
+
+} // namespace limovelo

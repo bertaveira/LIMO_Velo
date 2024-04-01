@@ -90,7 +90,7 @@ bool Accumulator::ready()
     return this->is_ready = false;
 }
 
-double Accumulator::update_delta(const InitializationParams & initialization, double t)
+double Accumulator::update_delta(const limovelo::InitializationParams & initialization, double t)
 {
     assert(
         ("There has to be exactly one more delta value than time delimiters",
@@ -106,7 +106,7 @@ double Accumulator::latest_time()
 double Accumulator::latest_imu_time()
 {
     // // Ideally should be ros::Time::now() - delay, but it's easier the other way with rosbags (no need for use_sim_time=true)
-    // return ros::Time::now() - Config.real_time_delay;
+    // return ros::Time::now() - limovelo::Config.real_time_delay;
 
     // Latest IMU timestamp - delay
     return this->BUFFER_I.front().time;
@@ -127,7 +127,7 @@ double Accumulator::set_initial_time()
     if (this->BUFFER_I.size() < 1) {return -1;}
     double latest_imu_time = this->BUFFER_I.front().time;
 
-    this->initial_time = latest_imu_time - Config.real_time_delay;
+    this->initial_time = latest_imu_time - limovelo::Config.real_time_delay;
 
     return this->initial_time;
 }
@@ -136,10 +136,12 @@ double Accumulator::set_initial_time()
 
 bool Accumulator::enough_imus()
 {
-    return this->BUFFER_I.size() > Config.real_time_delay * Config.imu_rate;
+    return this->BUFFER_I.size() > limovelo::Config.real_time_delay * limovelo::Config.imu_rate;
 }
 
-double Accumulator::interpret_initialization(const InitializationParams & initialization, double t)
+double Accumulator::interpret_initialization(
+    const limovelo::InitializationParams & initialization,
+    double t)
 {
     // If is after last time
     if (initialization.times.empty()) {return initialization.deltas.back();}
@@ -159,13 +161,13 @@ double Accumulator::interpret_initialization(const InitializationParams & initia
 
 bool Accumulator::missing_data(const Points & time_sorted_points)
 {
-    if (time_sorted_points.size() < Config.MAX_POINTS2MATCH) {return false;}
+    if (time_sorted_points.size() < limovelo::Config.MAX_POINTS2MATCH) {return false;}
 
     // Check missing 'time' information
     if (time_sorted_points.front().time == 0 and time_sorted_points.back().time == 0) {
         // Remove Initialization
-        Config.Initialization.times = {};
-        Config.Initialization.deltas = {Config.full_rotation_time};
+        limovelo::Config.Initialization.times = {};
+        limovelo::Config.Initialization.deltas = {limovelo::Config.full_rotation_time};
 
         return true;
     }
@@ -182,8 +184,8 @@ void Accumulator::throw_warning(const Points & time_sorted_points)
     // this->logger_("LiDAR points are missing 'time' information.");
     // this->logger_(
     //     "Delta has been fixed to %f (s) leading to a fixed %d (Hz) localization.",
-    //     Config.full_rotation_time,
-    //     (int) 1. / Config.full_rotation_time);
+    //     limovelo::Config.full_rotation_time,
+    //     (int) 1. / limovelo::Config.full_rotation_time);
 }
 
 

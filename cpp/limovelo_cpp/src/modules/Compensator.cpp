@@ -138,7 +138,9 @@ Points Compensator::voxelgrid_downsample(const Points & points)
     pcl::PointCloud<full_info::Point> ds_pcl;
     pcl::VoxelGrid<full_info::Point> filter;
     filter.setInputCloud(pcl_ptr);
-    filter.setLeafSize(Config.downsample_prec, Config.downsample_prec, Config.downsample_prec);
+    filter.setLeafSize(
+        limovelo::Config.downsample_prec, limovelo::Config.downsample_prec,
+        limovelo::Config.downsample_prec);
     filter.filter(ds_pcl);
 
     Points ds_points;
@@ -155,31 +157,38 @@ Points Compensator::onion_downsample(const Points & points)
     for (int i = 0; i < points.size(); ++i) {
         const Point & p = points[i];
         if (0 < p.range and p.range <
-          4 and (256 / Config.downsample_rate <= 1 or i % (256 / Config.downsample_rate) == 0))
+          4 and (256 / limovelo::Config.downsample_rate <=
+          1 or i % (256 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (4 < p.range and p.range <
-          6 and (64 / Config.downsample_rate <= 1 or i % (64 / Config.downsample_rate) == 0))
+          6 and (64 / limovelo::Config.downsample_rate <=
+          1 or i % (64 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (6 < p.range and p.range <
-          9 and (32 / Config.downsample_rate <= 1 or i % (32 / Config.downsample_rate) == 0))
+          9 and (32 / limovelo::Config.downsample_rate <=
+          1 or i % (32 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (9 < p.range and p.range <
-          12 and (16 / Config.downsample_rate <= 1 or i % (16 / Config.downsample_rate) == 0))
+          12 and (16 / limovelo::Config.downsample_rate <=
+          1 or i % (16 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (12 < p.range and p.range <
-          22 and (8 / Config.downsample_rate <= 1 or i % (8 / Config.downsample_rate) == 0))
+          22 and (8 / limovelo::Config.downsample_rate <=
+          1 or i % (8 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (22 < p.range and p.range <
-          30 and (4 / Config.downsample_rate <= 1 or i % (4 / Config.downsample_rate) == 0))
+          30 and (4 / limovelo::Config.downsample_rate <=
+          1 or i % (4 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (30 < p.range and p.range <
-          50 and (2 / Config.downsample_rate <= 1 or i % (2 / Config.downsample_rate) == 0))
+          50 and (2 / limovelo::Config.downsample_rate <=
+          1 or i % (2 / limovelo::Config.downsample_rate) == 0))
         {
             ds_points.push_back(p);
         } else if (p.range > 50) {ds_points.push_back(p);}

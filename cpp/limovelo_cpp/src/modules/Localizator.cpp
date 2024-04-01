@@ -52,7 +52,7 @@ void Localizator::calculate_H(
         Eigen::Vector3d A = (p_imu).cross(C);
 
         H.block<1, 6>(i, 0) << n.A, n.B, n.C, A(0), A(1), A(2);
-        if (Config.estimate_extrinsics) {
+        if (limovelo::Config.estimate_extrinsics) {
             H.block<1, 6>(i, 6) << B(0), B(1), B(2), C(0), C(1), C(2);
         }
 
@@ -117,8 +117,8 @@ void Localizator::init_IKFoM()
         IKFoM::df_dw,
         IKFoM::h_share_model,
 
-        Config.MAX_NUM_ITERS,
-        Config.LIMITS
+        limovelo::Config.MAX_NUM_ITERS,
+        limovelo::Config.LIMITS
     );
 }
 
@@ -127,9 +127,9 @@ void Localizator::IKFoM_update(const Points & points)
     double solve_H_time = 0;
     this->points2match = points;
     this->IKFoM_KF.update_iterated_dyn_share_modified(
-        Config.LiDAR_noise,
-        Config.degeneracy_threshold, solve_H_time,
-        Config.print_degeneracy_values);
+        limovelo::Config.LiDAR_noise,
+        limovelo::Config.degeneracy_threshold, solve_H_time,
+        limovelo::Config.print_degeneracy_values);
 }
 
 void Localizator::init_IKFoM_state(const IMU & imu)
@@ -140,16 +140,16 @@ void Localizator::init_IKFoM_state(const IMU & imu)
       S2(
         -Eigen::Vector3f(
             Conversions::double2floatVect(
-                Config.initial_gravity).data()).cast<double>());
+                limovelo::Config.initial_gravity).data()).cast<double>());
     init_state.bg = Eigen::Vector3d::Zero();
     init_state.offset_R_L_I =
       SO3(
         Eigen::Map<Eigen::Matrix3f>(
-            Conversions::double2floatVect(Config.I_Rotation_L).data(), 3,
+            Conversions::double2floatVect(limovelo::Config.I_Rotation_L).data(), 3,
             3).cast<double>());
     init_state.offset_T_L_I = Eigen::Vector3f(
         Conversions::double2floatVect(
-            Config.I_Translation_L).data()).cast<double>();
+            limovelo::Config.I_Translation_L).data()).cast<double>();
     this->IKFoM_KF.change_x(init_state);
 
     esekfom::esekf<state_ikfom, 12, input_ikfom>::cov init_P = this->IKFoM_KF.get_P();
@@ -175,10 +175,10 @@ void Localizator::propagate(const IMU & imu)
     in.gyro = imu.w.cast<double>();
 
     Eigen::Matrix<double, 12, 12> Q = Eigen::Matrix<double, 12, 12>::Identity();
-    Q.block<3, 3>(0, 0) = Config.cov_gyro * Eigen::Matrix<double, 3, 3>::Identity();
-    Q.block<3, 3>(3, 3) = Config.cov_acc * Eigen::Matrix<double, 3, 3>::Identity();
-    Q.block<3, 3>(6, 6) = Config.cov_bias_gyro * Eigen::Matrix<double, 3, 3>::Identity();
-    Q.block<3, 3>(9, 9) = Config.cov_bias_acc * Eigen::Matrix<double, 3, 3>::Identity();
+    Q.block<3, 3>(0, 0) = limovelo::Config.cov_gyro * Eigen::Matrix<double, 3, 3>::Identity();
+    Q.block<3, 3>(3, 3) = limovelo::Config.cov_acc * Eigen::Matrix<double, 3, 3>::Identity();
+    Q.block<3, 3>(6, 6) = limovelo::Config.cov_bias_gyro * Eigen::Matrix<double, 3, 3>::Identity();
+    Q.block<3, 3>(9, 9) = limovelo::Config.cov_bias_acc * Eigen::Matrix<double, 3, 3>::Identity();
 
     double dt = imu.time - this->last_time_integrated;
 

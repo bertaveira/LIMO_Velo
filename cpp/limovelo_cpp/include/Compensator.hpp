@@ -5,7 +5,7 @@
 class Compensator
 {
 public:
-    Compensator();
+    Compensator() {}
 
     // Main constructor
     Points compensate(const States & states, const IMUs & imus, double t2, const Points & points);
