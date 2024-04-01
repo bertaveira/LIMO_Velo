@@ -1,6 +1,0 @@
-[submodule "cpp/limo-velo/external/IKFoM"]
-	path = cpp/limo-velo/external/IKFoM
-	url = https://github.com/Huguet57/IKFoM.git
-[submodule "cpp/limo-velo/external/ikd-Tree"]
-	path = cpp/limo-velo/external/ikd-Tree
-	url = https://github.com/Huguet57/ikd-Tree.git
