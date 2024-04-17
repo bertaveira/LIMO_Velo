@@ -2,7 +2,6 @@
 /limovelo:
   ros__parameters:
     # Online/Offline
-    mapping_online: true     # set to 'true' until mapping offline fixed (see Discussions in GitHub)
     real_time: true         # in a slow CPU, real_time ensures to always output to latest odometry (possibly skipping points)
 
     # Topics
@@ -25,7 +24,7 @@
     ]
 
     # Delays
-    empty_lidar_time: 0.1      # Should be at least [FULL_ROTATION_TIME]
+    empty_lidar_time: 0.1      # How much in the past to erase the lidar data. Should be at least [FULL_ROTATION_TIME]
     real_time_delay: 0.1       # Should be at least [FULL_ROTATION_TIME] (without a modificated LiDAR driver)
 
     # LiDAR

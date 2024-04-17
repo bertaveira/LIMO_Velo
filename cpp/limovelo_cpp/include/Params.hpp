@@ -23,11 +23,9 @@ struct InitializationParams
 
 struct Params
 {
-    bool mapping_online;
     bool real_time;
 
     bool estimate_extrinsics;
-    bool print_extrinsics;
     std::vector<double> initial_gravity;
     std::vector<double> I_Rotation_L;
     std::vector<double> I_Translation_L;
@@ -40,7 +38,6 @@ struct Params
 
     int downsample_rate;
     float downsample_prec;
-    bool high_quality_publish;
 
     double min_dist;
     std::string LiDAR_type;

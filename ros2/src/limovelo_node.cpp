@@ -49,9 +49,6 @@ void LimoVeloNode::logger(std::string msg)
 void LimoVeloNode::setup_params()
 {
     // Read YAML parameters
-    this->declare_parameter("mapping_online", true);
-    this->get_parameter("mapping_online", params_.mapping_online);
-
     this->declare_parameter("real_time", false);
     this->get_parameter("real_time", params_.real_time);
 
@@ -59,7 +56,7 @@ void LimoVeloNode::setup_params()
     this->get_parameter("estimate_extrinsics", params_.estimate_extrinsics);
 
     this->declare_parameter("print_extrinsics", false);
-    this->get_parameter("print_extrinsics", params_.print_extrinsics);
+    this->get_parameter("print_extrinsics", print_extrinsics_);
 
     this->declare_parameter("downsample_rate", 4);
     this->get_parameter("downsample_rate", params_.downsample_rate);
@@ -68,7 +65,7 @@ void LimoVeloNode::setup_params()
     this->get_parameter("downsample_prec", params_.downsample_prec);
 
     this->declare_parameter("high_quality_publish", true);
-    this->get_parameter("high_quality_publish", params_.high_quality_publish);
+    this->get_parameter("high_quality_publish", high_quality_publish_);
 
     this->declare_parameter("MAX_NUM_ITERS", 3);
     this->get_parameter("MAX_NUM_ITERS", params_.MAX_NUM_ITERS);
@@ -260,7 +257,7 @@ void LimoVeloNode::run_slam()
     Points global_ds_compensated = limoVelo_->get_global_downsampled_compensated_points();
     publishers_->pointcloud(global_ds_compensated, true);
 
-    if (params_.print_extrinsics) {publishers_->extrinsics(state);}
+    if (print_extrinsics_) {publishers_->extrinsics(state);}
 
     timeIt("pointcloud publishers");
 
@@ -270,7 +267,7 @@ void LimoVeloNode::run_slam()
 
     // Publish map
     Points global_compensated = limoVelo_->get_global_compensated_points();
-    if (params_.high_quality_publish) {publishers_->pointcloud(global_compensated, false);} else {
+    if (high_quality_publish_) {publishers_->pointcloud(global_compensated, false);} else {
         publishers_->pointcloud(global_ds_compensated, false);
     }
 

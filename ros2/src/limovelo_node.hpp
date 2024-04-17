@@ -28,6 +28,9 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSub_;
     rclcpp::TimerBase::SharedPtr timer_;
 
+    // Parameters
+    bool print_extrinsics_, high_quality_publish_;
+
     limovelo::Params params_;
     limovelo::LimoVelo * limoVelo_;
     Publishers * publishers_;

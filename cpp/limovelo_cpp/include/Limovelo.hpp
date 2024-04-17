@@ -7,10 +7,15 @@ namespace limovelo
 
 void set_params(Params & params);
 
+inline void std_out_logger(std::string msg)
+{
+    std::cout << msg << std::endl;
+}
+
 class LimoVelo
 {
 public:
-    LimoVelo(std::function<void(std::string)> logger);
+    LimoVelo(std::function<void(std::string)> logger = std_out_logger);
 
     void reset();
     void setup_logger(std::function<void(std::string)> logger) {this->logger_ = logger;}
