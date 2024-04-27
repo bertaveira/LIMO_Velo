@@ -55,11 +55,10 @@ jobs:
 
     - uses: pypa/cibuildwheel@v2.17
       env:
-        CIBW_SKIP: "*musllinux*"
         CIBW_ARCHS_MACOS: universal2
-        CIBW_ARCHS_WINDOWS: auto ARM64
         CIBW_BEFORE_ALL_LINUX: yum install -y pcl-devel eigen3-devel
         CIBW_BEFORE_ALL_MACOS: brew install pcl eigen
+        CIBW_BUILD: "cp310-*"
       with:
         package-dir: ${{github.workspace}}/python/
 
