@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(limovelo_cpp LANGUAGES CXX)
 
 find_package(Eigen3 REQUIRED)
-find_package(PCL 1.8 REQUIRED)
+find_package(PCL REQUIRED)
 find_package(OpenMP REQUIRED)
 
 
